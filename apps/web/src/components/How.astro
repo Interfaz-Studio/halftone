@@ -1,0 +1,32 @@
+---
+const steps = [
+  { n: '01', t: 'Drop an image', d: 'JPG, PNG, WebP or AVIF. Drag it in, paste it or pick a file. It is decoded on your device and never uploaded.' },
+  { n: '02', t: 'Tune the screen', d: 'Shape, cell, angle, tone and colour, live at any zoom. Scrub a label, step with the arrow keys, undo anything.' },
+  { n: '03', t: 'Export or share', d: 'PNG at 1–4×, cut-out if you like. Share a link that carries the settings, never the image.' },
+];
+---
+<section class="frame section" id="how">
+  <div class="section-head" data-reveal>
+    <p class="label"><b>02</b> / How it works</p>
+    <h2 class="display display--md">Drop. Tune.<br />Export.</h2>
+  </div>
+  <ol class="steps">
+    {steps.map(s => (
+      <li data-reveal><span class="n">{s.n}</span><h3 class="display display--sm">{s.t}</h3><p>{s.d}</p></li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+  li { padding: 32px 24px 44px; border-right: 1px solid var(--line); }
+  li:last-child { border-right: 0; }
+  .n { font: 400 12px/1 var(--pixel); color: var(--accent); }
+  h3 { margin: 20px 0 12px; }
+  p { margin: 0; font-weight: 300; color: var(--fg-2); }
+  @media (max-width: 960px) {
+    .steps { grid-template-columns: 1fr; }
+    li { border-right: 0; border-bottom: 1px solid var(--line); }
+    li:last-child { border-bottom: 0; }
+  }
+</style>

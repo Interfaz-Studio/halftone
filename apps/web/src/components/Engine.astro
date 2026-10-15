@@ -1,0 +1,37 @@
+<section class="frame section split" id="engine">
+  <div class="section-head" data-reveal>
+    <p class="label"><b>04</b> / Engine</p>
+    <h2 class="display display--md">Open source.<br />MIT.</h2>
+    <p class="lede">The studio runs on <code>@interfaz/halftone</code>, a dependency-free WebGL2 engine. Render live into any canvas, or export at full resolution.</p>
+    <div class="row">
+      <a href="#" class="btn btn--line">GitHub</a>
+      <code class="npm">npm i @interfaz/halftone</code>
+    </div>
+  </div>
+  <pre class="code" data-reveal><code><span class="c">// live, in any canvas</span>
+<span class="k">import</span> {'{'} Halftone {'}'} <span class="k">from</span> <span class="s">'@interfaz/halftone'</span>;
+
+<span class="k">const</span> ht = <span class="k">new</span> Halftone(canvas, {'{'}
+  shape: <span class="s">'euclidean'</span>, cell: <span class="n">8</span>, angle: <span class="n">45</span>,
+  ink: <span class="s">'#111'</span>, paper: <span class="s">'#f2efe8'</span>,
+{'}'});
+ht.setSource(image);
+ht.render();
+
+<span class="c">// or straight to a PNG</span>
+<span class="k">const</span> png = <span class="k">await</span> exportImage(image, {'{'} mode: <span class="s">'dither'</span> {'}'}, {'{'} scale: <span class="n">2</span> {'}'});</code></pre>
+</section>
+
+<style>
+  .split { display: grid; grid-template-columns: 1fr 1fr; }
+  .split > .section-head { border-right: 1px solid var(--line); }
+  .row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 30px; }
+  .npm { font-size: 13px; color: var(--fg-2); }
+  .code { margin: 0; padding: 72px var(--pad) 56px; overflow-x: auto; background: var(--panel); font: 14px/1.75 var(--mono); color: var(--fg-2); }
+  .code code { color: inherit; }
+  .k { color: #b8a6ff; } .s { color: var(--accent); } .n { color: var(--fg); } .c { color: var(--fg-3); }
+  @media (max-width: 960px) {
+    .split { grid-template-columns: 1fr; }
+    .split > .section-head { border-right: 0; border-bottom: 1px solid var(--line); }
+  }
+</style>

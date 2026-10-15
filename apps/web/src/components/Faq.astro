@@ -1,0 +1,33 @@
+---
+const faq = [
+  { q: 'Is it really free?', a: 'Yes. The studio is free to use, with no account and no watermark, and the engine is MIT-licensed.' },
+  { q: 'Are my images uploaded anywhere?', a: 'No. Images are decoded and rendered on your own GPU and never leave your device. Share links carry the settings only.' },
+  { q: "What's the difference between dots and dither?", a: 'Dots are an AM screen, a regular grid whose dots grow with the tone, like print. Dither turns each pixel fully on or off, in an ordered pattern or by diffusing the error — the pixel-art and early-computer look.' },
+  { q: 'Can I use what I make commercially?', a: 'Yes. What you make is yours.' },
+  { q: 'Which browsers work?', a: 'Any recent browser with WebGL2: Chrome, Edge, Firefox and Safari, on desktop and on phones.' },
+];
+---
+<section class="frame section" id="faq">
+  <div class="section-head" data-reveal>
+    <p class="label"><b>05</b> / FAQ</p>
+    <h2 class="display display--md">Questions.</h2>
+  </div>
+  <div class="faq">
+    {faq.map(f => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
+  </div>
+</section>
+
+<style>
+  .faq { border-top: 1px solid var(--line); }
+  details { border-bottom: 1px solid var(--line); }
+  details:last-child { border-bottom: 0; }
+  summary {
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; cursor: pointer; list-style: none;
+    padding: 24px var(--pad); font: 800 clamp(20px, 2.2vw, 28px)/1 var(--display); text-transform: uppercase;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; font: 400 22px var(--pixel); color: var(--fg-3); transition: transform .2s; }
+  details[open] summary::after { transform: rotate(45deg); color: var(--accent); }
+  summary:hover { color: var(--accent); }
+  .faq p { margin: 0; padding: 0 var(--pad) 26px; max-width: 68ch; font-weight: 300; color: var(--fg-2); }
+</style>

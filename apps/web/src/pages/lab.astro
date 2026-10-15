@@ -1,0 +1,27 @@
+---
+// Engine bench: drive the engine by hand and measure it. Not linked from the site.
+import '../lab.css';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Halftone engine — lab</title>
+  </head>
+  <body>
+    <main class="lab">
+      <section class="stage" data-stage>
+        <canvas data-canvas></canvas>
+        <p class="drop">Drop or paste an image</p>
+      </section>
+      <aside class="panel">
+        <h1>Halftone engine <span>lab</span></h1>
+        <form data-controls></form>
+        <div class="out" data-out></div>
+      </aside>
+    </main>
+    <script src="../lab.ts"></script>
+  </body>
+</html>

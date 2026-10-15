@@ -1,0 +1,54 @@
+---
+import { MARK_SVG } from '../brand';
+const links = [
+  { href: '#styles', label: 'Styles' },
+  { href: '#how', label: 'How it works' },
+  { href: '#accuracy', label: 'Accuracy' },
+  { href: '#engine', label: 'Engine' },
+  { href: '#faq', label: 'FAQ' },
+];
+---
+<div class="bar">
+  <span class="bar-dot" aria-hidden="true"></span>
+  <span><strong>Halftone 0.1</strong> · seven dot shapes, six dithers &amp; a CRT</span>
+  <a href="/studio/" class="bar-link">Try it →</a>
+</div>
+<header class="nav">
+  <div class="frame nav-in">
+    <a href="/" class="logo" aria-label="Halftone, home">
+      <span class="mark" set:html={MARK_SVG} />
+      <span class="word">Halftone</span>
+    </a>
+    <nav class="links" aria-label="Sections">
+      {links.map(l => <a href={l.href}>{l.label}</a>)}
+    </nav>
+    <a href="/studio/" class="btn btn--solid btn--sm">Open studio</a>
+  </div>
+</header>
+
+<style>
+  .bar {
+    display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding: 9px 16px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--fg-2);
+  }
+  .bar strong { color: var(--fg); font-weight: 500; }
+  .bar-dot { width: 6px; height: 6px; background: var(--accent); }
+  .bar-link { color: var(--accent); text-decoration: none; font: 400 12px var(--pixel); letter-spacing: .08em; text-transform: uppercase; }
+  .bar-link:hover { text-decoration: underline; }
+
+  .nav { position: sticky; top: 0; z-index: 20; background: rgba(5, 5, 6, .84); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+  .nav-in { display: flex; align-items: center; gap: 24px; height: 64px; padding-inline: 24px; }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; font: 800 24px/1 var(--display); text-transform: uppercase; letter-spacing: .01em; }
+  /* Milker's capitals sit high in their line box; nudge them down so their ink centres on the
+     mark (measured from rendered pixels, not font metrics — those disagree by ~1px) */
+  .word { display: block; line-height: 1; transform: translateY(.125em); }
+  .mark { display: block; width: 24px; height: 24px; color: var(--accent); }
+  .mark :global(svg) { width: 100%; height: 100%; }
+  .links { display: flex; gap: 30px; margin-inline: auto; }
+  .links a { text-decoration: none; font-size: 14px; color: var(--fg-2); }
+  .links a:hover { color: var(--fg); }
+  @media (max-width: 960px) {
+    .links { display: none; }
+    .nav-in { justify-content: space-between; padding-inline: 16px; }
+  }
+</style>

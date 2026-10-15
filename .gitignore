@@ -1,0 +1,9 @@
+node_modules
+dist
+.astro
+*.tgz
+.DS_Store
+
+# Not covered by the MIT license — never commit (see README, "Third-party assets")
+apps/web/public/fonts/Milker.woff2
+apps/web/public/samples/

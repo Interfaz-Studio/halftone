@@ -1,0 +1,17 @@
+<footer class="frame foot">
+  <div class="cta">
+    <p class="display">Make something<br />worth printing.</p>
+    <a href="/studio/" class="btn btn--solid btn--xl">Open Halftone Studio <span class="arrow" aria-hidden="true">→</span></a>
+  </div>
+  <div class="bottom">
+    <span>Halftone · by <a href="https://interfaz.studio">interfaz.studio</a></span>
+    <span>MIT · runs entirely in your browser</span>
+  </div>
+</footer>
+
+<style>
+  .cta { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; padding: 88px var(--pad); border-bottom: 1px solid var(--line); }
+  .bottom { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 22px var(--pad) 40px; font: 400 11px/1.4 var(--pixel); letter-spacing: .08em; text-transform: uppercase; color: var(--fg-3); }
+  .bottom a:hover { color: var(--accent); }
+  @media (max-width: 960px) { .cta { flex-direction: column; align-items: flex-start; } }
+</style>

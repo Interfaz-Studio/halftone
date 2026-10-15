@@ -1,0 +1,24 @@
+---
+// A section break drawn by the engine: a thin black → white ramp in one screen.
+interface Props { shape?: string; mode?: 'dots' | 'dither'; dither?: string; cell?: number; angle?: number }
+const { shape = 'euclidean', mode = 'dots', dither = 'bayer8', cell = 6, angle = 45 } = Astro.props;
+---
+<div class="frame rule" aria-hidden="true">
+  <canvas data-ramp data-look={JSON.stringify({ shape, mode, dither, cell, angle, pixel: 2 })}></canvas>
+</div>
+
+<style>
+  .rule { height: 22px; border-bottom: 1px solid var(--line); background: var(--bg); }
+  canvas { width: 100%; height: 100%; }
+</style>
+
+<script>
+  import { keepPainted, paint, rampSource, supported } from '../landing/render';
+  if (supported()) {
+    const src = rampSource();
+    for (const c of document.querySelectorAll<HTMLCanvasElement>('canvas[data-ramp]')) {
+      const look = { ...JSON.parse(c.dataset.look!), ink: '#F4F4F1', paper: '#050506' };
+      keepPainted(c, () => paint(c, src, look, { fit: 'fill' }));
+    }
+  }
+</script>

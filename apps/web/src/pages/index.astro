@@ -1,0 +1,28 @@
+---
+import Page from '../layouts/Page.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import RampRule from '../components/RampRule.astro';
+import Styles from '../components/Styles.astro';
+import How from '../components/How.astro';
+import Accuracy from '../components/Accuracy.astro';
+import Engine from '../components/Engine.astro';
+import Faq from '../components/Faq.astro';
+import Footer from '../components/Footer.astro';
+---
+<Page
+  title="Halftone — real halftone, dither & CRT for your images · by interfaz.studio"
+  description="A free studio tool and open-source WebGL2 engine for real halftone screens: seven dot shapes, six dithers and a CRT, tone-accurate, entirely in your browser."
+>
+  <Nav />
+  <main id="main">
+    <Hero />
+    <Styles />
+    <How />
+    <Accuracy />
+    <RampRule shape="euclidean" cell={7} />
+    <Engine />
+    <Faq />
+  </main>
+  <Footer />
+</Page>

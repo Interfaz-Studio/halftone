@@ -1,0 +1,25 @@
+{
+  "name": "halftone-engine",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w apps/web",
+    "build": "npm run build -w packages/core && npm run build -w apps/web",
+    "test": "npm test -w packages/core && npm test -w apps/web",
+    "typecheck": "tsc -p packages/core --noEmit && tsc -p apps/web --noEmit",
+    "checks": "node scripts/run-checks.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vite": "^8.3.3",
+    "vitest": "^5.0.3"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}

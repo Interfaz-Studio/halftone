@@ -1,0 +1,57 @@
+{
+  "name": "@interfaz/halftone",
+  "version": "0.1.0",
+  "description": "Real halftone screens in WebGL2 — seven dot shapes, six dithers and a CRT pass, tone-accurate, live or exported.",
+  "keywords": [
+    "halftone",
+    "dither",
+    "dithering",
+    "webgl",
+    "webgl2",
+    "screen",
+    "print",
+    "riso",
+    "newsprint",
+    "crt",
+    "image",
+    "shader",
+    "floyd-steinberg",
+    "bayer"
+  ],
+  "homepage": "https://halftone.interfaz.studio",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/interfaz-studio/halftone.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/interfaz-studio/halftone/issues"
+  },
+  "author": "interfaz.studio (https://interfaz.studio)",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build && npm test"
+  }
+}

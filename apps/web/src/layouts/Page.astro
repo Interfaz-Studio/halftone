@@ -1,0 +1,33 @@
+---
+// Presentation-page shell: fonts, tokens, reveal-on-scroll.
+// Display: Milker (headlines) · labels: Geist Pixel · text: Geist.
+import '@fontsource-variable/geist';
+import '@fontsource/geist-pixel';
+import '../styles/landing.css';
+
+interface Props { title: string; description: string }
+const { title, description } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preload" href="/fonts/Milker.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <slot />
+    <script>
+      // Reveal sections as they scroll in (styles in landing.css; content stays visible without JS)
+      const io = new IntersectionObserver(entries => {
+        for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+      }, { rootMargin: '0px 0px -8% 0px' });
+      document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+    </script>
+  </body>
+</html>

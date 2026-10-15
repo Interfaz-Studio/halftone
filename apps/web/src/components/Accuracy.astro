@@ -1,0 +1,74 @@
+---
+// The chart is measured in the visitor's own browser when the section scrolls in.
+---
+<section class="frame section split" id="accuracy">
+  <div class="section-head" data-reveal>
+    <p class="label"><b>03</b> / Accuracy</p>
+    <h2 class="display display--md">Measured,<br />not eyeballed.</h2>
+    <p class="lede">Every cell averages its source in linear light and solves the dot that reproduces it, so a grey ramp stays an even ramp — any shape, any ink, light on dark included. The engine checks itself on the GPU.</p>
+    <dl class="stats">
+      <div><dt>Worst tone error</dt><dd data-tone>—</dd></div>
+      <div><dt>4K frame</dt><dd>~4 ms</dd></div>
+      <div><dt>GPU checks</dt><dd>55</dd></div>
+    </dl>
+  </div>
+  <figure class="chart" data-reveal>
+    <svg viewBox="0 0 360 240" data-chart role="img" aria-label="Measured output lightness plotted against target lightness"></svg>
+    <figcaption>Output vs. target lightness (L*), Euclidean dot, measured on this device a moment ago.</figcaption>
+  </figure>
+</section>
+
+<style>
+  .split { display: grid; grid-template-columns: 1fr 1fr; }
+  .split > .section-head { border-right: 1px solid var(--line); }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin: 36px 0 0; border-top: 1px solid var(--line); }
+  .stats div { padding-top: 16px; }
+  dt { font: 400 11px/1.2 var(--pixel); letter-spacing: .1em; text-transform: uppercase; color: var(--fg-3); }
+  dd { margin: 10px 0 0; font: 800 36px/1 var(--display); }
+  dd[data-tone] { color: var(--accent); }
+  .chart { margin: 0; padding: 72px var(--pad) 56px; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+  .chart svg { width: 100%; height: auto; }
+  figcaption { font-size: 13px; color: var(--fg-3); }
+  @media (max-width: 960px) {
+    .split { grid-template-columns: 1fr; }
+    .split > .section-head { border-right: 0; border-bottom: 1px solid var(--line); }
+  }
+</style>
+
+<script>
+  import { DEFAULTS, type HalftoneParams } from '@interfaz/halftone';
+  import { measureTone } from '../tone';
+  import { supported } from '../landing/render';
+
+  const svg = document.querySelector<SVGSVGElement>('[data-chart]')!;
+  const out = document.querySelector<HTMLElement>('[data-tone]')!;
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (tag: string, a: Record<string, string | number>, text?: string) => {
+    const n = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(a)) n.setAttribute(k, String(v));
+    if (text) n.textContent = text;
+    svg.append(n);
+    return n;
+  };
+  const W = 360, H = 240, L = 30, B = 26;
+  const x = (v: number) => L + (v / 100) * (W - L - 8), y = (v: number) => H - B - (v / 100) * (H - B - 8);
+  for (let v = 0; v <= 100; v += 25) {
+    el('line', { x1: x(v), y1: y(0), x2: x(v), y2: y(100), stroke: 'rgba(255,255,255,.08)' });
+    el('line', { x1: x(0), y1: y(v), x2: x(100), y2: y(v), stroke: 'rgba(255,255,255,.08)' });
+    el('text', { x: x(v), y: H - 8, 'font-size': 9, 'text-anchor': 'middle', fill: 'rgba(244,244,241,.45)', 'font-family': 'Geist Pixel' }, String(v));
+    el('text', { x: 4, y: y(v) + 3, 'font-size': 9, fill: 'rgba(244,244,241,.45)', 'font-family': 'Geist Pixel' }, String(v));
+  }
+  el('line', { x1: x(0), y1: y(0), x2: x(100), y2: y(100), stroke: 'rgba(244,244,241,.5)', 'stroke-dasharray': '3 4' });
+
+  const measure = () => {
+    const r = measureTone({ ...DEFAULTS, shape: 'euclidean', cell: 8, angle: 45, ink: '#000000', paper: '#ffffff' } as Partial<HalftoneParams>);
+    const pts = r.rows.map(row => { const m = /want ([\d.]+) got ([\d.]+)/.exec(row)!; return [Number(m[1]), Number(m[2])] as const; });
+    el('polyline', { points: pts.map(([w, g]) => `${x(w)},${y(g)}`).join(' '), fill: 'none', stroke: '#dd4c1a', 'stroke-width': 1.5 });
+    for (const [w, g] of pts) el('rect', { x: x(w) - 2, y: y(g) - 2, width: 4, height: 4, fill: '#dd4c1a' });
+    out.textContent = `${r.worst.toFixed(2)} L*`;
+  };
+  if (supported()) {
+    const io = new IntersectionObserver(([e]) => { if (e?.isIntersecting) { io.disconnect(); setTimeout(measure, 50); } });
+    io.observe(svg);
+  }
+</script>

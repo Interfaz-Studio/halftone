@@ -1,0 +1,93 @@
+/* Halftone presentation page — global tokens and shared pieces. Component styles live in each
+   .astro file. A framed centre column with hairline rules; section breaks are halftone ramps. */
+
+@font-face {
+  font-family: 'Milker';
+  src: url('/fonts/Milker.woff2') format('woff2');
+  font-weight: 400 900;
+  font-display: swap;
+}
+
+:root {
+  --bg: #050506;
+  --panel: #0c0c0e;
+  --line: rgba(255, 255, 255, .1);
+  --line-2: rgba(255, 255, 255, .2);
+  --fg: #f4f4f1;
+  --fg-2: rgba(244, 244, 241, .72);
+  --fg-3: rgba(244, 244, 241, .48);
+  --accent: #dd4c1a;       /* red-orange — one accent, used sparingly (since 2026-10-14; was #ca6330) */
+  --on-accent: #050506;
+  --frame: 1200px;
+  --pad: clamp(20px, 4vw, 48px);
+  --display: 'Milker', 'Geist Variable', sans-serif;
+  --pixel: 'Geist Pixel', ui-monospace, monospace;
+  --sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+img, canvas, svg { display: block; }
+:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; }
+::selection { background: var(--accent); color: var(--on-accent); }
+.skip { position: absolute; left: -999px; top: 8px; z-index: 50; padding: 8px 12px; background: var(--fg); color: var(--bg); }
+.skip:focus { left: 8px; }
+
+/* The framed centre column: side hairlines run the length of the page */
+.frame { width: min(var(--frame), 100%); margin-inline: auto; border-inline: 1px solid var(--line); }
+
+/* Type */
+.display { margin: 0; font: 800 clamp(48px, 8vw, 112px)/.86 var(--display); text-transform: uppercase; letter-spacing: -.005em; }
+.display--md { font-size: clamp(40px, 5.6vw, 76px); }
+.display--sm { font-size: clamp(28px, 3vw, 40px); line-height: .92; }
+.label { margin: 0; font: 400 12px/1 var(--pixel); letter-spacing: .14em; text-transform: uppercase; color: var(--fg-3); }
+.label b { font-weight: 400; color: var(--accent); }
+.lede { max-width: 58ch; margin: 22px 0 0; font-size: 17px; font-weight: 300; color: var(--fg-2); }
+code { font-family: var(--mono); font-size: .92em; color: var(--fg); }
+
+/* Buttons: square. On hover a hard-edged fill sweeps in from the left (no fades, no easing tails) */
+.btn {
+  position: relative; isolation: isolate; overflow: hidden;
+  flex: none;   /* never squeezed by a flex parent (it would lose its padding) */
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px; white-space: nowrap;
+  height: 44px; padding: 0 20px; text-decoration: none;
+  font: 400 13px/1 var(--pixel); letter-spacing: .08em; text-transform: uppercase;
+  transition: color .3s cubic-bezier(.7, 0, .2, 1), border-color .3s;
+}
+.btn::before {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  transform: scaleX(0); transform-origin: right;
+  transition: transform .3s cubic-bezier(.7, 0, .2, 1);
+}
+.btn:hover::before, .btn:focus-visible::before { transform: scaleX(1); transform-origin: left; }
+.btn--solid { background: var(--fg); color: var(--bg); }
+.btn--solid::before { background: var(--accent); }
+.btn--line { border: 1px solid var(--line-2); color: var(--fg); }
+.btn--line::before { background: var(--fg); }
+.btn--line:hover, .btn--line:focus-visible { color: var(--bg); border-color: var(--fg); }
+.btn--sm { height: 32px; padding: 0 14px; font-size: 12px; }
+.btn--lg { height: 54px; padding: 0 26px; font-size: 14px; }
+.btn--xl { height: 76px; padding: 0 34px; gap: 28px; font-size: 16px; }
+.btn .arrow { display: inline-block; transition: transform .3s cubic-bezier(.7, 0, .2, 1); }
+.btn:hover .arrow, .btn:focus-visible .arrow { transform: translateX(6px); }
+
+/* Sections */
+.section { border-bottom: 1px solid var(--line); }
+.section-head { padding: 72px var(--pad) 56px; }
+.section-head .display { margin-top: 18px; }
+
+/* Reveal — only when scripts run (no inline script needed, so the CSP can forbid them) */
+@media (scripting: enabled) {
+  [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity .8s cubic-bezier(.2, .7, .2, 1), transform .8s cubic-bezier(.2, .7, .2, 1); }
+  [data-reveal].is-in { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn::before { transition: none; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+}

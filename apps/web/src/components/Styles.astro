@@ -1,0 +1,55 @@
+---
+// Every card is a live render of the same photo; clicking one opens the studio with that look.
+import { CARD_LOOKS, studioHref } from '../landing/looks';
+---
+<section class="frame section" id="styles">
+  <div class="section-head center" data-reveal>
+    <p class="label"><b>01</b> / Styles</p>
+    <h2 class="display display--md">Nine screens,<br />one photo.</h2>
+    <p class="lede">AM dot shapes and dithers, each tone-matched to the original. Pick one to open it in the studio, already set up.</p>
+  </div>
+  <div class="cards">
+    {CARD_LOOKS.map((c, i) => (
+      <a class="card" href={studioHref(c.look)} data-reveal style={`transition-delay: ${(i % 3) * 60}ms`}>
+        <div class="art"><canvas data-card={JSON.stringify(c.look)} aria-hidden="true"></canvas></div>
+        <div class="body">
+          <h3 class="display display--sm">{c.name}</h3>
+          <p>{c.note}</p>
+          <span class="go" aria-hidden="true">Open in studio →</span>
+        </div>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .center { text-align: center; }
+  .center .lede { margin-inline: auto; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+  .card { display: flex; flex-direction: column; text-decoration: none; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .card:nth-child(3n) { border-right: 0; }
+  .art { aspect-ratio: 400 / 280; background: #000; overflow: hidden; }
+  .art canvas { width: 100%; height: 100%; transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
+  .card:hover .art canvas { transform: scale(1.03); }
+  .body { flex: 1; display: flex; flex-direction: column; gap: 12px; padding: 26px 24px 22px; }
+  .body p { margin: 0; font-size: 15px; line-height: 1.5; font-weight: 300; color: var(--fg-2); }
+  .go { margin-top: auto; padding-top: 14px; font: 400 11px/1 var(--pixel); letter-spacing: .1em; text-transform: uppercase; color: var(--fg-3); transition: color .2s; }
+  .card:hover .go { color: var(--accent); }
+  @media (max-width: 960px) {
+    .cards { grid-template-columns: 1fr 1fr; }
+    .card:nth-child(3n) { border-right: 1px solid var(--line); }
+    .card:nth-child(2n) { border-right: 0; }
+  }
+  @media (max-width: 600px) { .cards { grid-template-columns: 1fr; } .card { border-right: 0 !important; } }
+</style>
+
+<script>
+  import { keepPainted, loadBitmap, paint, supported } from '../landing/render';
+  if (supported()) {
+    const img = await loadBitmap('/samples/demo.jpg');
+    for (const c of document.querySelectorAll<HTMLCanvasElement>('canvas[data-card]')) {
+      const look = JSON.parse(c.dataset.card!);
+      keepPainted(c, () => paint(c, img, look));
+    }
+  }
+</script>
