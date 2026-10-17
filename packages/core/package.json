@@ -21,11 +21,11 @@
   "homepage": "https://halftone.interfaz.studio",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/interfaz-studio/halftone.git",
+    "url": "git+https://github.com/Interfaz-Studio/halftone.git",
     "directory": "packages/core"
   },
   "bugs": {
-    "url": "https://github.com/interfaz-studio/halftone/issues"
+    "url": "https://github.com/Interfaz-Studio/halftone/issues"
   },
   "author": "interfaz.studio (https://interfaz.studio)",
   "license": "MIT",

@@ -1,0 +1,9 @@
+// Static site on Cloudflare Workers: no adapter, no server code. Build from the repo root
+// (`npm run build`), then `npx wrangler deploy` here uploads dist/. dist/_headers still applies.
+{
+  "name": "halftone",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist"
+  }
+}
